@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="js/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        
+        ul li {
+            list-style: none;
+        }
+        /* 父盒子 */
+        
+        .view {
+            width: 423px;
+            height: 751px;
+            position: relative;
+            left: 30%;
+            top: 45%;
+        }
+        
+        ul.ig li {
+            position: absolute;
+
+        }
+        .ig .igg{
+            text-align:center;!important;
+        }
+        .ig .igg img{
+            width:423px;
+            height:752px;
+        }
+        /*左右按钮*/
+        
+        .btn {
+            position: absolute;
+            width: 60px;
+            height: 90px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            font-size: 40px;
+            line-height: 90px;
+            text-align: center;
+            top: 105px;
+            cursor: pointer;
+            /* display: none; */
+            /*鼠标滑过显示隐藏按钮*/
+        }
+        
+        .pre {
+            left: 0;
+        }
+        
+        .net {
+            right: 0;
+        }
+        /* 标签 */
+        
+        .tabs {
+            position: absolute;
+            bottom: 10%;
+            left: 26%;
+        }
+        
+        .tabs ul li {
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            text-align: center;
+            line-height: 30px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        
+        .tabs ul li.active {
+            background: red;
+            color: #fff;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <script>
+        $(function() {
+
+            // $('.igg').eq(0).show().siblings().hide()//显示第一张图，同级以外的隐藏，siblings同级
+
+            var i = 0;
+            var timer;
+
+            //一 显示隐藏图片
+            //  $('.igg').eq(i).fadeIn(100).siblings().fadeOut(100);
+            // $('.tabs ul li').eq(i).addClass('active').siblings().removeClass('active')
+
+            //鼠标滑过显示隐藏切换按钮
+            // $('.view').hover(function() {
+            //     $('div.btn').show()
+            // }, function() {
+            //     $('div.btn').hide()
+            // })
+
+
+            // //显示隐藏图片这里用封装好的
+            show();
+            showTime();
+
+            // //二 鼠标滑过的当前状态
+            $('.tabs ul li').hover(function() {
+                i = $(this).index(); //获取鼠标移上去当前元素的下标
+                show();
+                clearInterval(timer); //清除轮播，否则鼠标悬停的时候依然会轮播
+            }, function() {
+                showTime();
+            })
+
+            //三 切换上一页
+            $('.pre').click(function() {
+                    clearInterval(timer); //点击时清除定时器轮播
+                    if (i == 0) {
+                        i = 6
+                    }
+                    i--; //索引-1，即往回退
+                    show(); //执行显示当前图片
+                    showTime(); //执行轮播动画
+                })
+                //四 切换下一页
+            $('.net').click(function() {
+                clearInterval(timer); //点击时清除定时器轮播
+                if (i == 5) {
+                    i = -1
+                }
+                i++; //索引-1，即往回退
+                show(); //执行显示当前图片
+                showTime(); //执行轮播动画
+            })
+
+            // //封装显示隐藏图片
+            function show() {
+                $('.igg').eq(i).fadeIn(500).siblings().fadeOut(500); //显示当前的图片
+                $('.tabs ul li').eq(i).addClass('active').siblings().removeClass('active') //当前li添加class样式，以外的移动active样式
+            }
+
+            // //封装定时器 自动播放图片
+            function showTime() {
+                timer = setInterval(function() {
+                    i++;
+                    if (i == 6) {
+                        i = 0
+                    }
+                    show();
+                }, 3000)
+            }
+        })
+    </script>
+
+    <div class="view">
+        <ul class="ig">
+            <li class="igg"><img src="images/首页.png" alt="" srcset=""></li>
+            <li class="igg"><img src="images/分类.png" alt="" srcset=""></li>
+            <li class="igg"><img src="images/门店.png" alt="" srcset=""></li>
+            <li class="igg"><img src="images/我的.png" alt="" srcset=""></li>
+            <li class="igg"><img src="images/商品详情.png" alt="" srcset=""></li>
+            <li class="igg"><img src="images/评价.png" alt="" srcset=""></li>
+            <li class="igg"><img src="images/订单选择.png" alt="" srcset=""></li>
+        </ul>
+        <div class="btn pre">&lt;</div>
+        <div class="btn net">&gt;</div>
+        <div class="tabs">
+            <ul>
+                <li class="active">1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>4</li>
+                <li>5</li>
+                <li>6</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
